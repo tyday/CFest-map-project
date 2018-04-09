@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" >
+    <body>
+        <div id="div1">
+        
+            </div>
+    </body>
+
+    <script>
+        var listObjects = [
+            {name: 'car1',color:'red',size:'small'},
+            {name: 'car2',color:'blue',size:'medium'},
+            {name: 'car3',color:'orange',size:'large'}
+        ]
+        for(i=0; i<listObjects.length;i++){
+            var para = document.createElement("p");
+            var node = document.createTextNode(listObjects[i].name);
+            para.appendChild(node);
+            var element = document.getElementById("div1");
+            element.appendChild(para); 
+        }
+        
+
+        
+    </script>
+        
