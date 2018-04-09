@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Comfest Map</title>
+    <meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+    <script>
+      var map;
+      function initMap() {
+        var stylers = [{
+          featureType: 'poi.business',
+          stylers: [{visibility: 'off'}]
+        }];
+
+        //   "stylers": [{ 
+        //     "hue": "#ff0022"
+        //   }, {
+        //     "saturation": -16
+        //   }, {
+        //     "lightness": -5
+        //   }]
+        // }];
+        map = new google.maps.Map(document.getElementById('map'), {
+          center: {lat: 39.976, lng: -83.008},
+          zoom: 17.5,
+          styles: stylers
+
+        });
+        var overlayBounds = {
+          north: 39.977372,
+          south: 39.973853,
+          east: -83.004729,
+          west: -83.009321
+        };
+        parkOverlay = new google.maps.GroundOverlay(
+          // 'http://via.placeholder.com/350x150', 
+          'https://drive.google.com/uc?id=1TVggu_MQXYhnvNSwfW4uqV1oekBnGTds',
+          overlayBounds);
+        parkOverlay.setMap(map);
+        
+        // User marker definition and  geolocation script grabbed from
+        // https://stackoverflow.com/questions/9142833/show-my-location-on-google-maps-api-v3#9142876
+        var myloc = new google.maps.Marker({
+          clickable: false,
+          icon: new google.maps.MarkerImage('https://maps.gstatic.com/mapfiles/mobile/mobileimgs2.png',
+                                                          new google.maps.Size(22,22),
+                                                          new google.maps.Point(0,18),
+                                                          new google.maps.Point(11,11)),
+          shadow: null,
+
+          zIndex: 999,
+          map: map// your google.maps.Map object
+        });
+        if (navigator.geolocation) navigator.geolocation.getCurrentPosition(function(pos) {
+          console.log('geolocate fired')
+          var me = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
+          console.log(me);
+          console.log(pos.coords.latitude, pos.coords.longitude);
+          myloc.setPosition(me);
+          }, function(error) {
+              // ...
+              // console.log('error during geolocation');
+        });
+      }
+      
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDTvKQxSrvIgqHaR7dXVNKdb6nb-q2dOmQ&callback=initMap"
+    async defer></script>
+  </body>
+</html>
