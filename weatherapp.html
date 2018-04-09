@@ -1,0 +1,276 @@
+
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+
+  <meta charset="UTF-8">
+  <link rel="shortcut icon" type="image/x-icon" href="https://static.codepen.io/assets/favicon/favicon-8ea04875e70c4b0bb41da869e81236e54394d63638a1ef12fa558a4a835f1164.ico" />
+  <link rel="mask-icon" type="" href="https://static.codepen.io/assets/favicon/logo-pin-f2d2b6d2c61838f7e76325261b7195c27224080bc099486ddd6dccb469b8e8e6.svg" color="#111" />
+  <title>CodePen - Weather App</title>
+  
+  
+  
+  <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css'>
+<link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css'>
+
+      <style>
+      @import url('https://fonts.googleapis.com/css?family=Fira+Sans:600|Ubuntu:700');
+
+body, html{
+  
+  height: 100%;
+  text-align:center;
+  margin:0px;
+  /*    background-color:black;
+background: 
+url("http://www.wpc.ncep.noaa.gov/sfc/namussfcbw.gif")  no-repeat  center fixed;
+  opacity:.5;
+  background-size:cover; */ 
+}
+#backgroundImage{ 
+  background: 
+url("http://www.wpc.ncep.noaa.gov/sfc/namussfcbw.gif") no-repeat center fixed;
+  background-size:cover;
+  
+  /*opacity:.5;*/
+}
+#transition{
+  height:100%;
+  /*height:max-content;*/
+  width:350px;
+  background-color: rgba(0,0,255,0.7);
+  /*background-attachment:fixed;*/
+  margin:auto;
+  border-style:solid;
+  border-width:5px;
+  border-color: #191980;
+  border-radius:2%;
+
+  
+  
+}
+div{
+  text-align:center;
+}
+h1{
+  font-weight: bold;
+  color: white;
+  text-align:center;
+  
+}
+#fira{
+  font-family: 'Fira Sans', sans-serif;
+}
+#ubunt/* Delete me */{
+  font-family: 'Ubuntu', sans-serif;
+}
+h2{
+  font-weight: bold;
+  color: white;
+  text-align:center;
+  font-family: 'Fira Sans', sans-serif;
+}
+h3{
+  font-weight: bold;
+  color: white;
+  text-align:center;
+  font-family: 'Fira Sans', sans-serif;
+}
+h4{
+  font-weight: bold;
+  color: white;
+  text-align:center;
+}
+h5{
+  font-weight: bold;
+  color: white;
+  text-align:center;
+}
+a{
+  color: white;
+  word-break: break-all;
+}
+a:hover, a:visited{
+  color: #d9d9d9;
+}
+p{
+  text-align:center;
+  color:white;
+  word-break: break-all;
+  
+    
+}
+.buttonholder{
+  text-align:center;
+}
+.img{
+  border-radius: 4%;
+  border-style:solid;
+  border-width:1px;
+  border-color: #191980;
+}
+.loader {
+    position:fixed;
+    left:50%;
+    top:50%;
+    margin: -50px 0 0 -50px;
+    border: 10px solid #f3f3f3; /* Light grey */
+    border-top: 10px solid #191980; /*#3498db Blue */
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    animation: spin 2s linear infinite;
+}
+
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+    </style>
+
+  
+  
+  
+  
+
+</head>
+
+<body translate="no" >
+
+  <body>
+  <div id="backgroundImage" alt="Surface observation map of the United States">
+    <div id="transition">
+
+      <h1><br>Weather App</h1><br>
+      <div class="loader"></div>
+      <h2 id="location">Location</h2>
+      <div id="test"></div>
+      <h3 id="temp">Temp</h3>
+      <h3 id="pressure">Pressure</h3>
+      <h3 id="conditions">Conditions</h3>
+      <div><img id="weatherIcon" alt="Current conditions icon"></img>
+      </div>
+      <h5 id="measurement" onclick="doConversion()"><a href="#">Metric units</a></h5>
+      <h5 id="timestamp"></h5>
+      <br>
+      <h5 id="datainfo"></h5>
+      <p><a href="https://codepen.io/tyday/#">A pen by Ty Day</a></p>
+      <p><a href="https://www.freecodecamp.org/">Project from freeCodeCamp</a></p>
+
+    </div>
+
+  </div>
+  </div>
+</body>
+  
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js'></script>
+
+  
+
+    <script >
+      var stationId;
+var weatherInfo, weatherPoint, temp, pressure, forecastPic, dataInfo;
+var varlocation = "39.0693,-100.6716";
+var units = "metric"
+/*var backdrops = {"clear":"https://unsplash.com/photos/DgtRKZOOE0w"}*/
+
+
+if (navigator.geolocation) {
+  navigator.geolocation.getCurrentPosition(function(position) {
+    varlocation = (position.coords.latitude).toFixed(2) + "," + (position.coords.longitude).toFixed(2);
+    initWeather();
+  });
+}
+function initWeather() {
+  /* takes current geolocation and sends it to NWS.
+  retrieves closest radarstation and runs getWeather */
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      var testscript = xhttp.response;
+      weatherPoint = JSON.parse(testscript);
+      stationId = weatherPoint["properties"]["radarStation"];
+      console.log(weatherPoint);
+      console.log(
+        "Id: " + weatherPoint["properties"]["cwa"] + " " + typeof weatherPoint
+      + "here: " + varlocation+ "\n"+
+        "https://api.weather.gov/points/" + varlocation);
+      var tempData = "https://api.weather.gov/points/" + varlocation;
+      dataInfo ="Data aggregated from the <a href='http://www.weather.gov/'>NWS</a>:<br/>" +
+        "<a href='" +tempData+"'>"+tempData+"</a><br/>";
+      getWeather();
+    }
+  };
+  var httpPath = "https://api.weather.gov/points/" + varlocation;
+  xhttp.open("GET", httpPath,true);//"https://api.weather.gov/points/39.0693,-97.6716", true);
+  xhttp.responseType = "geo+json";
+  xhttp.send();
+}
+function getWeather() {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      // do stuff
+      weatherInfo = JSON.parse(xhttp.response);
+      setWeather();
+    }
+  };
+  var httpPath =
+    "https://api.weather.gov/stations/" + stationId + "/observations/current";
+  console.log(httpPath);
+  dataInfo += "\n" + "<a href='" +httpPath+"'>"+httpPath+"</a>";
+  xhttp.open("GET", httpPath, true);
+  xhttp.responseType = "geo+json";
+  xhttp.send();
+}
+function setWeather(){
+  $(".loader").hide();
+  $("#location").html(weatherPoint["properties"]["relativeLocation"]["properties"]["city"]+
+       ", " +
+       weatherPoint["properties"]["relativeLocation"]["properties"]["state"]);
+  var isCelc =weatherInfo["properties"]["temperature"]["unitCode"].includes("degC");
+  if(weatherInfo["properties"]["temperature"]["unitCode"].includes("degC")){
+    temp = weatherInfo["properties"]["temperature"]["value"];
+  } else {temp = (weatherInfo["properties"]["temperature"]["value"]-32)*.5556;}
+  if (weatherInfo["properties"]["barometricPressure"]["unitCode"].includes("Pa")){
+    pressure = weatherInfo["properties"]["barometricPressure"]["value"];
+  } else {
+    pressure = weatherInfo["properties"]["barometricPressure"]["value"]*0.0002953;
+      }
+  forecastPic = weatherInfo["properties"]["icon"];
+  $("#weatherIcon").attr("src",forecastPic);
+  $("#pressure").html(pressure/100 + " millibars");
+  $("#temp").html(temp.toFixed(1)+" &degC");
+  $("#conditions").html(weatherInfo["properties"]["textDescription"]);
+  $("#timestamp").html(weatherInfo["properties"]["timestamp"]);
+  $("#datainfo").html(dataInfo);
+}
+function doConversion(){
+  console.log("conversion button clicked");
+  if(units == "metric"){
+    units = "english";
+    $("#measurement").html("<a href='#'>English units</a>")
+    $("#temp").html((temp*5/9+32).toFixed(1)+ " &degF");   
+    $("#pressure").html(((pressure/100)*.02953).toFixed(2) + " inHg");
+    
+  } else {
+    units = "metric";
+    $("#measurement").html("<a href='#'>Metric units</a>");
+    $("#temp").html(temp.toFixed(1)+" &degC");
+    $("#pressure").html(pressure/100 + " millibars");
+  }
+}
+    </script>
+
+
+
+  
+  
+
+</body>
+
+</html>
+ 
