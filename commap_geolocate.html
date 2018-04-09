@@ -42,11 +42,13 @@
         //
         var listCFPOIS = [
           {name:'Test One', lat: 39.973955, lng: -83.008166},
-          {name:'Test Two', lat: 39.974043, lng: --83.005667},    //39.974043, -83.005667
+          {name:'Test Two', lat: 39.974043, lng: -83.005667},    //39.974043, -83.005667
           {name:'Test Three', lat: 39.975343, lng: -83.006963},   //39.975343, -83.006963
           {name:'Test Four', lat: 39.976691, lng: -83.008306},    //39.976691, -83.008306
-          {name:'Test Five', lat: 39.976691, lng: -83.008306}     //39.976691, -83.008306
-        ]
+          {name:'Test Five', lat: 39.976691, lng: -83.005306}     //39.976691, -83.008306
+        ];
+        var posCBUS = {lat: 39.976, lng: -83.008};  // Goodale Park Center
+        
 
         // Add buttons
         // toggle POIs
@@ -54,9 +56,9 @@
 
         // Open map. Set zoom and location  
         map = new google.maps.Map(document.getElementById('map'), {
-          center: {lat: 39.976, lng: -83.008},
-          zoom: 17.5,
-          styles: stylers
+          center: posCBUS,
+          zoom: 16,
+          // styles: stylers
 
         });
         // Overlay map
@@ -98,6 +100,15 @@
               // ...
               // console.log('error during geolocation');
         });
+
+        // Add POIs to map
+        for(i=0;i<listCFPOIS.length;i++){
+          var marker = new google.maps.Marker({
+          position:{lat:listCFPOIS[i].lat, lng:listCFPOIS[i].lng},
+          map: map
+          });
+          console.log(listCFPOIS[i].lat,listCFPOIS[i].lng)
+        }
       }
       
     </script>
