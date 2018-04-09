@@ -16,11 +16,48 @@
         margin: 0;
         padding: 0;
       }
+      #floating-panel {
+        position: absolute;
+        bottom:0;
+        left: 25%;
+        z-index:5;
+        /* background-color: #fff; */
+        /* padding: 10px; */
+        border :1px solid #999;
+        text-align: center;
+        font-family: 'Roboto', 'sans-serif';
+        /* line-height: 30px; */
+        /* padding-left: 10px; */
+      }
+      #btnPOIToggle{
+      background-image: url( 'https://drive.google.com/uc?id=1EEfMQ_kZwUh6aK4eLhag5KDFM0SXAOKO' );
+      background-size: 2em 2em;
+      height: 2em;  
+      width: 2em;
+      }
+      #btnMAPToggle{
+      background-image: url( 'https://drive.google.com/uc?id=1-YYx2VGmxr1CVbJwE7qn5NMcIp8anG7F' );
+      background-size: 2em 2em;
+      height: 2em;  
+      width: 2em;
+      fill:blue;
+      }
     </style>
   </head>
   <body>
+    <div id="floating-panel">
+      <!-- <input type="button" onclick="togglePOIS();" value="Toggle POIs"> -->
+      <button id="btnPOIToggle" onclick="togglePOIS();"></button>
+      <button id="btnMAPToggle" onclick="toggleMap();"></button>
+    </div>
     <div id="map"></div>
     <script>
+      function togglePOIS(){
+        console.log('btnTogglePOIS pressed');
+      }
+      function toggleMap(){
+        console.log('btnToggleMap pressed');
+      }
       var map;
       function initMap() {
         var stylers = [{
