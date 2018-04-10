@@ -105,14 +105,15 @@
         //
         //
         var overlayBounds = {
-          north: 39.977372,
-          south: 39.973853,
-          east: -83.004729,
-          west: -83.009321
+          north: 39.977432,
+          south: 39.972867,
+          east: -83.004316,
+          west: -83.009412
         };
         parkOverlay = new google.maps.GroundOverlay(
           // 'http://via.placeholder.com/350x150', 
-          'https://drive.google.com/uc?id=1TVggu_MQXYhnvNSwfW4uqV1oekBnGTds',
+          // 'https://drive.google.com/uc?id=1TVggu_MQXYhnvNSwfW4uqV1oekBnGTds',// WHite background map
+          'https://drive.google.com/uc?id=0B9jFsVvgAWVFcVVQcTFxQ1lzNWV0MjFRczBLdFUxWGdGdkFv', // Bordered map
           overlayBounds);
         parkOverlay.setMap(map);
         
