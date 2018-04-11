@@ -30,7 +30,8 @@
       background-size: 100%;
       height: 2em;  
       width: 2em;
-      /* background-color:#cc99ff; */
+      /* filter: invert(20%); */
+      background-color:#fff;
       }
       #btnMAPToggle{
       background-image: url( 'https://drive.google.com/uc?id=1-YYx2VGmxr1CVbJwE7qn5NMcIp8anG7F' );
@@ -46,6 +47,9 @@
       height: 2em;  
       width: 2em;
       margin-left: 1em;
+      }
+      .btnToggled{
+        filter:invert(20%);
       }
     </style>
   </head>
@@ -225,9 +229,11 @@
         function togglePOIS() {
           if(poisShown){
             clearMarkers();
+            document.getElementById('btnPOIToggle').classList.add('btnToggled');
             poisShown = false;
           } else {
             setMapOnAll(map);
+            document.getElementById('btnPOIToggle').classList.remove('btnToggled');
             poisShown = true;
           }
         }
