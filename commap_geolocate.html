@@ -172,11 +172,13 @@
             function toggleLocateUser() {
           if(toggleFollow){
             toggleFollow = false;
+            document.getElementById('btnLocateUser').classList.add('btnToggled');
             console.log('follow turned off');
             navigator.geolocation.clearWatch(watchID);
             
           } else {
             toggleFollow = true;
+            document.getElementById('btnLocateUser').classList.remove('btnToggled');
             console.log('follow turned on');
             locateUser();
             
@@ -249,9 +251,11 @@
         //
         function toggleMap(){
           if(parkOverlayShown){
+            document.getElementById('btnMAPToggle').classList.add('btnToggled');
             removeOverlay();
             parkOverlayShown = false;
           } else {
+            document.getElementById('btnMAPToggle').classList.remove('btnToggled');
             addOverlay();
             parkOverlayShown = true;
           }
