@@ -61,7 +61,7 @@
       <!-- <input type="button" onclick="togglePOIS();" value="Toggle POIs"> -->
       <button id="btnPOIToggle" onclick="togglePOIS();"></button>
       <button id="btnMAPToggle" onclick="toggleMap();"></button>
-      <button id="btnLocateUser" onclick="locateUser();"></button>
+      <button id="btnLocateUser"></button>
     </div>
     <div id="map"></div>
     <script>
@@ -169,6 +169,27 @@
         var markerCluster = new MarkerClusterer(map, markers,
             {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
         
+        // Add Listener for user locater button
+        //
+        var varButton = document.getElementById('btnLocateUser');
+        if(varButton.addEventListener){
+                varButton.addEventListener("click", function() { alert("alert");}, false);
+                } else if(button.attachEvent){
+                  varButton.attachEvent("onclick", function() { alert("alert");});
+                }
+        
+        // Function to locate user
+        //
+        function locateUser(){
+          if (navigator.geolocation) navigator.geolocation.getCurrentPosition(function(pos) {
+          console.log('geolocate fired')
+          var me = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
+          console.log(me);
+          console.log(pos.coords.latitude, pos.coords.longitude);
+          myloc.setPosition(me);
+          }, function(error){});
+
+        }
         
 
 
@@ -193,7 +214,7 @@
             poisShown = true;
           }
         }
-      // Functions to locate the user and add marker to map
+      
       
     </script>
     <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js">
