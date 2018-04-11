@@ -47,7 +47,7 @@
       margin-left: 1em;
       }
       #btnLocateUser{
-      background-image: url( 'file:///C:/Users/tyrda/Documents/Web%20Assets/Icons/gps_signal.png' );
+      background-image: url( 'file:///C:/Users/tyrda/Documents/Web%20Assets/Icons/gps_signal2.png' );
       background-size: 100%; /*2em 2em;*/
       height: 2em;  
       width: 2em;
@@ -74,6 +74,8 @@
       var map;
       var markers = [];
       var poisShown = true;
+      var parkOverlay;
+      var parkOverlayShown = true;
       function initMap() {
         var stylers = [{
           featureType: 'poi.business',
@@ -173,21 +175,23 @@
         //
         var varButton = document.getElementById('btnLocateUser');
         if(varButton.addEventListener){
-                varButton.addEventListener("click", function() { alert("alert");}, false);
+                varButton.addEventListener("click", locateUser, false);
                 } else if(button.attachEvent){
-                  varButton.attachEvent("onclick", function() { alert("alert");});
+                  varButton.attachEvent("onclick", locateUser);
                 }
         
         // Function to locate user
         //
         function locateUser(){
+          console.log('btnLocateUser fired');
           if (navigator.geolocation) navigator.geolocation.getCurrentPosition(function(pos) {
           console.log('geolocate fired')
           var me = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
           console.log(me);
-          console.log(pos.coords.latitude, pos.coords.longitude);
+          console.log(pos.coords.latitude, pos.coords.longitude, pos.coords.accuracy);
           myloc.setPosition(me);
-          }, function(error){});
+          map.setCenter(me);
+          }, function(error){console.log('btnLocateUSer geolocate failed')});
 
         }
         
@@ -214,6 +218,26 @@
             poisShown = true;
           }
         }
+        // Functions to turn the comfest overlay on and off
+        //
+        function addOverlay() {
+          parkOverlay.setMap(map);
+        }
+
+        function removeOverlay() {
+          parkOverlay.setMap(null);
+        }
+        //
+        function toggleMap(){
+          if(parkOverlayShown){
+            removeOverlay();
+            parkOverlayShown = false;
+          } else {
+            addOverlay();
+            parkOverlayShown = true;
+          }
+        }
+
       
       
     </script>
