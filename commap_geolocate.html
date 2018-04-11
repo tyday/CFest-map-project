@@ -64,7 +64,8 @@
       function toggleMap(){
         console.log('btnToggleMap pressed');
       }
-      var map;
+      var map, watchID;
+      var toggleFollow = false;
       var markers = [];
       var poisShown = true;
       var parkOverlay;
@@ -143,7 +144,7 @@
           console.log('geolocate fired')
           var me = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
           console.log(me);
-          console.log(pos.coords.latitude, pos.coords.longitude);
+          console.log(pos.coords.latitude, pos.coords.longitude, window.location.protocol);
           myloc.setPosition(me);
           }, function(error) {
               // ...
@@ -164,11 +165,23 @@
         var markerCluster = new MarkerClusterer(map, markers,
             {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
         
+            function toggleLocateUser() {
+          if(toggleFollow){
+            toggleFollow = false;
+            console.log('follow turned off');
+            navigator.geolocation.clearWatch(watchID);
+            
+          } else {
+            toggleFollow = true;
+            console.log('follow turned on');
+            locateUser();
+            
+          }}
         // Add Listener for user locater button
         //
         var varButton = document.getElementById('btnLocateUser');
         if(varButton.addEventListener){
-                varButton.addEventListener("click", locateUser, false);
+                varButton.addEventListener("click", toggleLocateUser, false);
                 } else if(button.attachEvent){
                   varButton.attachEvent("onclick", locateUser);
                 }
@@ -184,9 +197,16 @@
           console.log(pos.coords.latitude, pos.coords.longitude, pos.coords.accuracy);
           myloc.setPosition(me);
           map.setCenter(me);
+          watchID = navigator.geolocation.watchPosition(function(pos){
+            myloc.setPosition(me);
+            console.log(pos.coords.latitude, pos.coords.longitude, pos.coords.accuracy);
+          })
           }, function(error){console.log('btnLocateUSer geolocate failed')});
 
+          
         }
+
+        
         
 
 
