@@ -191,6 +191,17 @@
             locateUser();
             
           }}
+        // Add listener for Map Zoom
+        // Remove markers if zoom level less than 15
+        google.maps.event.addListener(map, 'zoom_changed', function() {
+            var zoom = map.getZoom();
+            // iterate over markers and call setVisible
+            for (i = 0; i < markers.length; i++) {
+                markers[i].setVisible(zoom >= 16);
+                // markers[i].setVisible(false);
+            }
+            console.log('zoom: '+ zoom + '. zoom >= 16: '+ (zoom >= 16));
+        });
         // Add Listener for user locater button
         //
         var varButton = document.getElementById('btnLocateUser');
