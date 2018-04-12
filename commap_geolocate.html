@@ -67,6 +67,7 @@
       var map, watchID;
       var toggleFollow = false;
       var markers = [];
+      var comfestMarker;
       var poisShown = true;
       var parkOverlay;
       var parkOverlayShown = true;
@@ -77,7 +78,8 @@
         beer:'https://drive.google.com/uc?id=1UnVG4TCsxYOmEzbUfic7QuKXwnnXav3C',  // mug
         information:'https://drive.google.com/uc?id=1WJ53VIArJPy5K8EWC9IfZ7qbqr5L3abE', // i
         firstAid:'https://drive.google.com/uc?id=1JQh_XQpIsjBcg5M44zVPiJMGzAzvXErH',  // +
-        atm:'link'  // dollar bill
+        atm:'link',  // dollar bill
+        comfestLogo: 'https://drive.google.com/uc?id=12p9WRCqDTi9ZraMtp5wS0Mr3LE-JVFgc', // Hopewell symbol
       }
       function initMap() {
         var stylers = [{
@@ -176,6 +178,15 @@
           markers.push(marker);
           console.log(listCFPOIS[i].lat,listCFPOIS[i].lng)
         }
+        // Add Comfest logo
+        comfestMarker = new google.maps.Marker({
+          position:{lat:39.975416, lng:-83.006976},
+          icon: new google.maps.MarkerImage(iconFileLocation.comfestLogo),
+          title: 'Comfest',
+          map: map,
+          visibility: false,
+          });
+          console.log("Comfest Logo: ");// + comfestMarker);
        
             function toggleLocateUser() {
           if(toggleFollow){
