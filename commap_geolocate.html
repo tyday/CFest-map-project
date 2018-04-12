@@ -40,13 +40,15 @@
       height: 2em;  
       width: 2em;
       margin-left: 1em;
+      background-color:#fff;
       }
       #btnLocateUser{
-      background-image: url( 'file:///C:/Users/tyrda/Documents/Web%20Assets/Icons/gps_signal2.png' );
+      background-image: url( 'file:///C:/Users/tyrda/OneDrive/Programming/Webdev/GenericHtml/Assets/gps_signal2.png' );
       background-size: 100%; /*2em 2em;*/
       height: 2em;  
       width: 2em;
       margin-left: 1em;
+      background-color:#fff;
       }
       .btnToggled{
         filter:invert(20%);
@@ -62,18 +64,21 @@
     </div>
     <div id="map"></div>
     <script>
-      // function togglePOIS(){
-      //   console.log('btnTogglePOIS pressed');
-      // }
-      function toggleMap(){
-        console.log('btnToggleMap pressed');
-      }
       var map, watchID;
       var toggleFollow = false;
       var markers = [];
       var poisShown = true;
       var parkOverlay;
       var parkOverlayShown = true;
+      
+      // Icon file location list
+      var iconFileLocation = {
+        stage:'file:///C:/Users/tyrda/OneDrive/Programming/Webdev/GenericHtml/Assets/note.png', // note
+        beer:'file:///C:/Users/tyrda/OneDrive/Programming/Webdev/GenericHtml/Assets/mug.png',  // mug
+        information:'file:///C:/Users/tyrda/OneDrive/Programming/Webdev/GenericHtml/Assets/info.png', // i
+        firstAid:'file:///C:/Users/tyrda/OneDrive/Programming/Webdev/GenericHtml/Assets/first-aid.png',  // +
+        atm:'link'  // dollar bill
+      }
       function initMap() {
         var stylers = [{
           featureType: 'poi.business',
@@ -93,11 +98,11 @@
         //
         //
         var listCFPOIS = [
-          {name:'Test One', lat: 39.973955, lng: -83.008166},
-          {name:'Test Two', lat: 39.974043, lng: -83.005667},    //39.974043, -83.005667
-          {name:'Test Three', lat: 39.975343, lng: -83.006963},   //39.975343, -83.006963
-          {name:'Test Four', lat: 39.976691, lng: -83.008306},    //39.976691, -83.008306
-          {name:'Test Five', lat: 39.976691, lng: -83.005306}     //39.976691, -83.008306
+          {name:'Test One', lat: 39.973955, lng: -83.008166, feature:'stage'},
+          {name:'Test Two', lat: 39.974043, lng: -83.005667, feature:'beer'},    //39.974043, -83.005667
+          {name:'Test Three', lat: 39.975343, lng: -83.006963, feature:'information'},   //39.975343, -83.006963
+          {name:'Test Four', lat: 39.976691, lng: -83.008306, feature:'firstAid'},    //39.976691, -83.008306
+          {name:'Test Five', lat: 39.976691, lng: -83.005306, feature:'firstAid'}     //39.976691, -83.008306
         ];
         var posCBUS = {lat: 39.976, lng: -83.008};  // Goodale Park Center
         
@@ -159,7 +164,11 @@
         for(i=0;i<listCFPOIS.length;i++){
           var marker = new google.maps.Marker({
           position:{lat:listCFPOIS[i].lat, lng:listCFPOIS[i].lng},
-          map: map
+          icon: new google.maps.MarkerImage(iconFileLocation[listCFPOIS[i].feature]),
+                                            // size: new google.maps.Size(22,22)},
+                                            // new google.maps.Point(0,0),
+                                            // new google.maps.Point(10,10)),
+          map: map,
           });
           markers.push(marker);
           console.log(listCFPOIS[i].lat,listCFPOIS[i].lng)
