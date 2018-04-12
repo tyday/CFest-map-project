@@ -17,8 +17,8 @@
    inkscape:version="0.92.2 (5c3e80d, 2017-08-06)"
    sodipodi:docname="note-200.svg"
    inkscape:export-filename="C:\Users\tyrda\OneDrive\Programming\Webdev\GenericHtml\Assets\note.png"
-   inkscape:export-xdpi="126.44"
-   inkscape:export-ydpi="126.44">
+   inkscape:export-xdpi="9.6000004"
+   inkscape:export-ydpi="9.6000004">
   <defs
      id="defs2" />
   <sodipodi:namedview
@@ -29,7 +29,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.979899"
-     inkscape:cx="172.38308"
+     inkscape:cx="74.145746"
      inkscape:cy="44.904195"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
@@ -63,7 +63,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
