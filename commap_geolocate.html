@@ -43,7 +43,7 @@
       background-color:#fff;
       }
       #btnLocateUser{
-      background-image: url( 'file:///C:/Users/tyrda/OneDrive/Programming/Webdev/GenericHtml/Assets/gps_signal2.png' );
+      background-image: url( 'https://drive.google.com/uc?id=1mi5UocI8FCWyenNkvMb5-QgGYh6njiFv' );
       background-size: 100%; /*2em 2em;*/
       height: 2em;  
       width: 2em;
@@ -73,10 +73,10 @@
       
       // Icon file location list
       var iconFileLocation = {
-        stage:'file:///C:/Users/tyrda/OneDrive/Programming/Webdev/GenericHtml/Assets/note.png', // note
-        beer:'file:///C:/Users/tyrda/OneDrive/Programming/Webdev/GenericHtml/Assets/mug.png',  // mug
-        information:'file:///C:/Users/tyrda/OneDrive/Programming/Webdev/GenericHtml/Assets/info.png', // i
-        firstAid:'file:///C:/Users/tyrda/OneDrive/Programming/Webdev/GenericHtml/Assets/first-aid.png',  // +
+        stage:'https://drive.google.com/uc?id=19MXiug65K_U8LoekNvoi6daeFwoBjZgi', // note
+        beer:'https://drive.google.com/uc?id=1UnVG4TCsxYOmEzbUfic7QuKXwnnXav3C',  // mug
+        information:'https://drive.google.com/uc?id=1WJ53VIArJPy5K8EWC9IfZ7qbqr5L3abE', // i
+        firstAid:'https://drive.google.com/uc?id=1JQh_XQpIsjBcg5M44zVPiJMGzAzvXErH',  // +
         atm:'link'  // dollar bill
       }
       function initMap() {
@@ -95,14 +95,19 @@
         // }];
 
         // Add POIs here:
-        //
-        //
         var listCFPOIS = [
+          // Sample POIs
           {name:'Test One', lat: 39.973955, lng: -83.008166, feature:'stage'},
-          {name:'Test Two', lat: 39.974043, lng: -83.005667, feature:'beer'},    //39.974043, -83.005667
-          {name:'Test Three', lat: 39.975343, lng: -83.006963, feature:'information'},   //39.975343, -83.006963
-          {name:'Test Four', lat: 39.976691, lng: -83.008306, feature:'firstAid'},    //39.976691, -83.008306
-          {name:'Test Five', lat: 39.976691, lng: -83.005306, feature:'firstAid'}     //39.976691, -83.008306
+          {name:'Test Two', lat: 39.974043, lng: -83.005667, feature:'beer'},    
+          {name:'Test Three', lat: 39.975343, lng: -83.006963, feature:'information'},   
+          {name:'Test Four', lat: 39.976691, lng: -83.008306, feature:'firstAid'},
+          // Start of real POIs    
+          {name:'Off-ramp', lat: 39.974099, lng: -83.008003, feature:'stage'},
+          {name:'Bozo', lat: 39.974909, lng: -83.006710, feature:'stage'},
+          {name:'Jazz', lat: 39.973577, lng: -83.004479, feature:'stage'},
+          {name:'Gazebo', lat: 39.976175, lng: -83.005595, feature:'stage'},
+          {name:'Solar', lat: 39.974793, lng: -83.008416, feature:'stage'}, 
+          {name:'Live Arts', lat: 39.976517, lng: -83.007226, feature:'stage'},    
         ];
         var posCBUS = {lat: 39.976, lng: -83.008};  // Goodale Park Center
         
@@ -165,9 +170,7 @@
           var marker = new google.maps.Marker({
           position:{lat:listCFPOIS[i].lat, lng:listCFPOIS[i].lng},
           icon: new google.maps.MarkerImage(iconFileLocation[listCFPOIS[i].feature]),
-                                            // size: new google.maps.Size(22,22)},
-                                            // new google.maps.Point(0,0),
-                                            // new google.maps.Point(10,10)),
+          title: listCFPOIS[i].name,
           map: map,
           });
           markers.push(marker);
