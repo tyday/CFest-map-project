@@ -176,11 +176,7 @@
           markers.push(marker);
           console.log(listCFPOIS[i].lat,listCFPOIS[i].lng)
         }
-        // Add marker clustering 
-        // https://developers.google.com/maps/documentation/javascript/marker-clustering
-        var markerCluster = new MarkerClusterer(map, markers,
-            {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
-        
+       
             function toggleLocateUser() {
           if(toggleFollow){
             toggleFollow = false;
@@ -275,8 +271,6 @@
 
       
       
-    </script>
-    <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js">
     </script>
 
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDTvKQxSrvIgqHaR7dXVNKdb6nb-q2dOmQ&callback=initMap"
