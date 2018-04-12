@@ -179,12 +179,14 @@
           console.log(listCFPOIS[i].lat,listCFPOIS[i].lng)
         }
         // Add Comfest logo
+        // This marker is added separately so it can toggle visibility opposite the POI icons
         comfestMarker = new google.maps.Marker({
-          position:{lat:39.975416, lng:-83.006976},
+          position:{lat:39.974029, lng:-83.006909},
           icon: new google.maps.MarkerImage(iconFileLocation.comfestLogo),
           title: 'Comfest',
           map: map,
-          visibility: false,
+          // visibility: false,
+          visible:false,
           });
           console.log("Comfest Logo: ");// + comfestMarker);
        
@@ -209,6 +211,7 @@
             // iterate over markers and call setVisible
             for (i = 0; i < markers.length; i++) {
                 markers[i].setVisible(zoom >= 16);
+                comfestMarker.setVisible(!(zoom>=16));
                 // markers[i].setVisible(false);
             }
             console.log('zoom: '+ zoom + '. zoom >= 16: '+ (zoom >= 16));
