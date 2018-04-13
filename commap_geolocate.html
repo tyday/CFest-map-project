@@ -67,10 +67,12 @@
       var map, watchID;
       var toggleFollow = false;
       var markers = [];
+      var infowindows = [];
       var comfestMarker;
       var poisShown = true;
       var parkOverlay;
       var parkOverlayShown = true;
+      var comfestMarkerContent = "<div id='content'><h3>Comfest</h3><p>Another sentence</p></div>"
       
       // Icon file location list
       var iconFileLocation = {
@@ -168,6 +170,11 @@
         });
 
         // Add POIs to map
+        // Add info window for each marker
+        // Add listener for click event
+        // 
+        // info window and click event solution found:https://stackoverflow.com/questions/11106671/google-maps-api-multiple-markers-with-infowindows#11106794
+        
         for(i=0;i<listCFPOIS.length;i++){
           var marker = new google.maps.Marker({
           position:{lat:listCFPOIS[i].lat, lng:listCFPOIS[i].lng},
@@ -177,6 +184,15 @@
           });
           markers.push(marker);
           console.log(listCFPOIS[i].lat,listCFPOIS[i].lng)
+          var infowindow = new google.maps.InfoWindow();
+          var txtContent = listCFPOIS[i].name;
+          console.log(txtContent);
+          google.maps.event.addListener(marker,'click', (function(marker,txtContent,infowindow){ 
+            return function() {
+              infowindow.setContent(txtContent);
+              infowindow.open(map,marker);
+            };
+          })(marker,txtContent,infowindow));  
         }
         // Add Comfest logo
         // This marker is added separately so it can toggle visibility opposite the POI icons
@@ -188,7 +204,15 @@
           // visibility: false,
           visible:false,
           });
-          console.log("Comfest Logo: ");// + comfestMarker);
+        var infowindow = new google.maps.InfoWindow({
+          content: comfestMarkerContent
+        });
+        comfestMarker.addListener('click', function() {
+          infowindow.open(map, comfestMarker);
+        });
+
+
+        console.log("Comfest Logo: ");// + comfestMarker);
        
             function toggleLocateUser() {
           if(toggleFollow){
