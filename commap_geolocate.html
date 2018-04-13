@@ -53,6 +53,9 @@
       .btnToggled{
         filter:invert(20%);
       }
+      table, th, td {
+        border: 1px solid black;
+      }
     </style>
   </head>
   <body>
@@ -72,7 +75,7 @@
       var poisShown = true;
       var parkOverlay;
       var parkOverlayShown = true;
-      var comfestMarkerContent = "<div id='content'><h3>Comfest</h3><p>Another sentence</p></div>"
+      var comfestMarkerContent = "<div id='content'><h3>ComFest</h3><table><tr><th>Fri</th><th>Sat</th><th>Sun</th></tr><tr><td>12PM-11PM</td><td>9AM-9:30PM</td><td>9:30AM-8PM</td></table><a href='https://www.comfest.com/'>Visit us on the web</a><br><a href='https://goo.gl/maps/pTYo1ihFJz42'>View on Google Maps</a></div>"
       
       // Icon file location list
       var iconFileLocation = {
@@ -140,7 +143,8 @@
         parkOverlay = new google.maps.GroundOverlay(
           // 'http://via.placeholder.com/350x150', 
           // 'https://drive.google.com/uc?id=1TVggu_MQXYhnvNSwfW4uqV1oekBnGTds',// WHite background map
-          'https://drive.google.com/uc?id=0B9jFsVvgAWVFcVVQcTFxQ1lzNWV0MjFRczBLdFUxWGdGdkFv', // Bordered map
+          // 'https://drive.google.com/uc?id=0B9jFsVvgAWVFcVVQcTFxQ1lzNWV0MjFRczBLdFUxWGdGdkFv', // Bordered map
+          'https://drive.google.com/uc?id=1qP-sDEoMLy0mxjmLlBWxSpe0qEqIQFbW', //Early test map
           overlayBounds);
         parkOverlay.setMap(map);
         
