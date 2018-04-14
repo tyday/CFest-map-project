@@ -117,7 +117,7 @@
           {name:'Test Three', lat: 39.975343, lng: -83.006963, feature:'information'},   
           {name:'Test Four', lat: 39.976691, lng: -83.008306, feature:'firstAid'},
           // Start of real POIs    
-          {name:'Off-ramp', lat: 39.974099, lng: -83.008003, feature:'stage'},
+          {name:'Off-ramp',  lat: 39.9739260036349, lng: -83.00787725233601, feature:'stage'},
           {name:'Bozo', lat: 39.974909, lng: -83.006710, feature:'stage'},
           {name:'Jazz', lat: 39.973577, lng: -83.004479, feature:'stage'},
           {name:'Gazebo', lat: 39.976175, lng: -83.005595, feature:'stage'},
@@ -243,7 +243,8 @@
           }}
         //Add Listener for map clicks
         map.addListener('click', function(event) {
-          console.log(event.latLng.lat()+' ' +event.latLng.lng());
+          // lat: 39.973955, lng: -83.008166
+          console.log('lat: ' + event.latLng.lat()+', lng: ' +event.latLng.lng());
         });
 
         // Add listener for Map Zoom
