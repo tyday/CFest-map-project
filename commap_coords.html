@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Comfest Map</title>
+    <meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #floating-panel {
+        position: absolute;
+        bottom:2em;
+        left: 25%;
+        z-index:5;
+        text-align: center;
+        font-family: 'Roboto', 'sans-serif';
+      }
+      #btnPOIToggle{
+      background-image: url( 'https://drive.google.com/uc?id=1EEfMQ_kZwUh6aK4eLhag5KDFM0SXAOKO' );
+      /* background-size: 2em 2em; */
+      background-size: 100%;
+      height: 2em;  
+      width: 2em;
+      /* filter: invert(20%); */
+      background-color:#fff;
+      }
+      #btnMAPToggle{
+      background-image: url( 'https://drive.google.com/uc?id=1-YYx2VGmxr1CVbJwE7qn5NMcIp8anG7F' );
+      /* background-size: 2em 2em; */
+      background-size: 100%;
+      height: 2em;  
+      width: 2em;
+      margin-left: 1em;
+      background-color:#fff;
+      }
+      #btnLocateUser{
+      background-image: url( 'https://drive.google.com/uc?id=1mi5UocI8FCWyenNkvMb5-QgGYh6njiFv' );
+      background-size: 100%; /*2em 2em;*/
+      height: 2em;  
+      width: 2em;
+      margin-left: 1em;
+      background-color:#fff;
+      }
+      .btnToggled{
+        filter:invert(20%);
+      }
+      table{
+        border-collapse: collapse;
+        margin-bottom:.5em;
+      }
+      td{
+        padding:.5em;
+        border:1px solid black;
+      }
+      tr{
+        border:1px solid black;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="floating-panel">
+      <!-- <input type="button" onclick="togglePOIS();" value="Toggle POIs"> -->
+      <button id="btnPOIToggle" onclick="togglePOIS();"></button>
+      <button id="btnMAPToggle" onclick="toggleMap();"></button>
+      <button id="btnLocateUser" class='btnToggled'></button>
+    </div>
+    <div id="map"></div>
+    <script>
+      var map, watchID;
+      var toggleFollow = false;
+      var markers = [];
+      var infowindows = [];
+      var comfestMarker;
+      var poisShown = true;
+      var parkOverlay;
+      var parkOverlayShown = true;
+      var comfestMarkerContent = "<div id='content'><h3>ComFest</h3><table><tr><th>Fri</th><th>Sat</th><th>Sun</th></tr><tr><td>12PM-11PM</td><td>9AM-9:30PM</td><td>9:30AM-8PM</td></table><a href='https://www.comfest.com/'>Visit us on the web</a><br><a href='https://goo.gl/maps/pTYo1ihFJz42'>View on Google Maps</a></div>"
+      
+      // Icon file location list
+      var iconFileLocation = {
+        stage:'https://drive.google.com/uc?id=19MXiug65K_U8LoekNvoi6daeFwoBjZgi', // note
+        beer:'https://drive.google.com/uc?id=1UnVG4TCsxYOmEzbUfic7QuKXwnnXav3C',  // mug
+        information:'https://drive.google.com/uc?id=1WJ53VIArJPy5K8EWC9IfZ7qbqr5L3abE', // i
+        firstAid:'https://drive.google.com/uc?id=1JQh_XQpIsjBcg5M44zVPiJMGzAzvXErH',  // +
+        atm:'link',  // dollar bill
+        comfestLogo: 'https://drive.google.com/uc?id=12p9WRCqDTi9ZraMtp5wS0Mr3LE-JVFgc', // Hopewell symbol
+      }
+      function initMap() {
+        var stylers = [{
+          featureType: 'poi.business',
+          stylers: [{visibility: 'off'}]
+        }];
+
+        //   "stylers": [{ 
+        //     "hue": "#ff0022"
+        //   }, {
+        //     "saturation": -16
+        //   }, {
+        //     "lightness": -5
+        //   }]
+        // }];
+
+        // Add POIs here:
+        var listCFPOIS = [
+          // Sample POIs
+          {name:'Test One', lat: 39.973955, lng: -83.008166, feature:'stage'},
+          {name:'Test Two', lat: 39.974043, lng: -83.005667, feature:'beer'},    
+          {name:'Test Three', lat: 39.975343, lng: -83.006963, feature:'information'},   
+          {name:'Test Four', lat: 39.976691, lng: -83.008306, feature:'firstAid'},
+          // Start of real POIs    
+          {name:'Off-ramp', lat: 39.974099, lng: -83.008003, feature:'stage'},
+          {name:'Bozo', lat: 39.974909, lng: -83.006710, feature:'stage'},
+          {name:'Jazz', lat: 39.973577, lng: -83.004479, feature:'stage'},
+          {name:'Gazebo', lat: 39.976175, lng: -83.005595, feature:'stage'},
+          {name:'Solar', lat: 39.974793, lng: -83.008416, feature:'stage'}, 
+          {name:'Live Arts', lat: 39.976517, lng: -83.007226, feature:'stage'},    
+        ];
+        var posCBUS = {lat: 39.976, lng: -83.008};  // Goodale Park Center
+        
+
+        // Add buttons
+        // toggle POIs
+        // toggle custom map
+
+        // Open map. Set zoom and location  
+        map = new google.maps.Map(document.getElementById('map'), {
+          center: posCBUS,
+          zoom: 16,
+          gestureHandling: 'greedy',
+          // styles: stylers
+
+        });
+        // Overlay map
+        //
+        //
+        var overlayBounds = {
+          north: 39.977432,
+          south: 39.972867,
+          east: -83.004316,
+          west: -83.009412
+        };
+        parkOverlay = new google.maps.GroundOverlay(
+          // 'http://via.placeholder.com/350x150', 
+          // 'https://drive.google.com/uc?id=1TVggu_MQXYhnvNSwfW4uqV1oekBnGTds',// WHite background map
+          // 'https://drive.google.com/uc?id=0B9jFsVvgAWVFcVVQcTFxQ1lzNWV0MjFRczBLdFUxWGdGdkFv', // Bordered map
+          'https://drive.google.com/uc?id=1qP-sDEoMLy0mxjmLlBWxSpe0qEqIQFbW', //Early test map
+          overlayBounds);
+        parkOverlay.setMap(map);
+        
+        // Geolocation
+        // User marker definition and  geolocation script grabbed from
+        // https://stackoverflow.com/questions/9142833/show-my-location-on-google-maps-api-v3#9142876
+        var myloc = new google.maps.Marker({
+          clickable: false,
+          icon: new google.maps.MarkerImage('https://maps.gstatic.com/mapfiles/mobile/mobileimgs2.png',
+                                                          new google.maps.Size(22,22),
+                                                          new google.maps.Point(0,18),
+                                                          new google.maps.Point(11,11)),
+          shadow: null,
+
+          zIndex: 999,
+          map: map// your google.maps.Map object
+        });
+        if (navigator.geolocation) navigator.geolocation.getCurrentPosition(function(pos) {
+          console.log('geolocate fired')
+          var me = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
+          console.log(me);
+          console.log(pos.coords.latitude, pos.coords.longitude, window.location.protocol);
+          myloc.setPosition(me);
+          }, function(error) {
+              // ...
+              // console.log('error during geolocation');
+        });
+
+        // Add POIs to map
+        // Add info window for each marker
+        // Add listener for click event
+        // 
+        // info window and click event solution found:https://stackoverflow.com/questions/11106671/google-maps-api-multiple-markers-with-infowindows#11106794
+        
+        for(i=0;i<listCFPOIS.length;i++){
+          var marker = new google.maps.Marker({
+          position:{lat:listCFPOIS[i].lat, lng:listCFPOIS[i].lng},
+          icon: new google.maps.MarkerImage(iconFileLocation[listCFPOIS[i].feature]),
+          title: listCFPOIS[i].name,
+          map: map,
+          });
+          markers.push(marker);
+          console.log(listCFPOIS[i].lat,listCFPOIS[i].lng)
+          var infowindow = new google.maps.InfoWindow();
+          var txtContent = listCFPOIS[i].name;
+          console.log(txtContent);
+          google.maps.event.addListener(marker,'click', (function(marker,txtContent,infowindow){ 
+            return function() {
+              infowindow.setContent(txtContent);
+              infowindow.open(map,marker);
+            };
+          })(marker,txtContent,infowindow));  
+        }
+        // Add Comfest logo
+        // This marker is added separately so it can toggle visibility opposite the POI icons
+        comfestMarker = new google.maps.Marker({
+          position:{lat:39.974029, lng:-83.006909},
+          icon: new google.maps.MarkerImage(iconFileLocation.comfestLogo),
+          title: 'Comfest',
+          map: map,
+          // visibility: false,
+          visible:false,
+          });
+        var infowindow = new google.maps.InfoWindow({
+          content: comfestMarkerContent
+        });
+        comfestMarker.addListener('click', function() {
+          infowindow.open(map, comfestMarker);
+        });
+
+
+        console.log("Comfest Logo: ");// + comfestMarker);
+       
+            function toggleLocateUser() {
+          if(toggleFollow){
+            toggleFollow = false;
+            document.getElementById('btnLocateUser').classList.add('btnToggled');
+            console.log('follow turned off');
+            navigator.geolocation.clearWatch(watchID);
+            
+          } else {
+            toggleFollow = true;
+            document.getElementById('btnLocateUser').classList.remove('btnToggled');
+            console.log('follow turned on');
+            locateUser();
+            
+          }}
+        // Add listener for Map Zoom
+        // Remove markers if zoom level less than 15
+        google.maps.event.addListener(map, 'zoom_changed', function() {
+            var zoom = map.getZoom();
+            // iterate over markers and call setVisible
+            for (i = 0; i < markers.length; i++) {
+                markers[i].setVisible(zoom >= 16);
+                comfestMarker.setVisible(!(zoom>=16));
+                // markers[i].setVisible(false);
+            }
+            console.log('zoom: '+ zoom + '. zoom >= 16: '+ (zoom >= 16));
+        });
+        // Add Listener for user locater button
+        //
+        var varButton = document.getElementById('btnLocateUser');
+        if(varButton.addEventListener){
+                varButton.addEventListener("click", toggleLocateUser, false);
+                } else if(button.attachEvent){
+                  varButton.attachEvent("onclick", locateUser);
+                }
+        
+        // Function to locate user
+        //
+        function locateUser(){
+          console.log('btnLocateUser fired');
+          if (navigator.geolocation) navigator.geolocation.getCurrentPosition(function(pos) {
+          console.log('geolocate fired')
+          var me = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
+          console.log(me);
+          console.log(pos.coords.latitude, pos.coords.longitude, pos.coords.accuracy);
+          myloc.setPosition(me);
+          map.setCenter(me);
+          watchID = navigator.geolocation.watchPosition(function(pos){
+            myloc.setPosition(me);
+            console.log(pos.coords.latitude, pos.coords.longitude, pos.coords.accuracy);
+          })
+          }, function(error){console.log('btnLocateUSer geolocate failed')});
+
+          
+        }
+
+        
+        
+
+
+      }
+      //Functions to add or remove markers from map
+        // Sets the map on all markers in the array.
+        function setMapOnAll(map) {
+          for (var i = 0; i < markers.length; i++) {
+            markers[i].setMap(map);
+          }
+        }
+        // Removes the markers from the map, but keeps them in the array.
+        function clearMarkers() {
+          setMapOnAll(null);
+        }
+        function togglePOIS() {
+          if(poisShown){
+            clearMarkers();
+            document.getElementById('btnPOIToggle').classList.add('btnToggled');
+            poisShown = false;
+          } else {
+            setMapOnAll(map);
+            document.getElementById('btnPOIToggle').classList.remove('btnToggled');
+            poisShown = true;
+          }
+        }
+        // Functions to turn the comfest overlay on and off
+        //
+        function addOverlay() {
+          parkOverlay.setMap(map);
+        }
+
+        function removeOverlay() {
+          parkOverlay.setMap(null);
+        }
+        //
+        function toggleMap(){
+          if(parkOverlayShown){
+            document.getElementById('btnMAPToggle').classList.add('btnToggled');
+            removeOverlay();
+            parkOverlayShown = false;
+          } else {
+            document.getElementById('btnMAPToggle').classList.remove('btnToggled');
+            addOverlay();
+            parkOverlayShown = true;
+          }
+        }
+
+      
+      
+    </script>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDTvKQxSrvIgqHaR7dXVNKdb6nb-q2dOmQ&callback=initMap"
+    async defer></script>
+  </body>
+</html>
