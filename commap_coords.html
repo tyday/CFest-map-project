@@ -153,7 +153,8 @@
           // 'https://drive.google.com/uc?id=1TVggu_MQXYhnvNSwfW4uqV1oekBnGTds',// WHite background map
           // 'https://drive.google.com/uc?id=0B9jFsVvgAWVFcVVQcTFxQ1lzNWV0MjFRczBLdFUxWGdGdkFv', // Bordered map
           'https://drive.google.com/uc?id=1qP-sDEoMLy0mxjmLlBWxSpe0qEqIQFbW', //Early test map
-          overlayBounds);
+          overlayBounds,
+          {clickable:false});//clickable
         parkOverlay.setMap(map);
         
         // Geolocation
@@ -240,6 +241,11 @@
             locateUser();
             
           }}
+        //Add Listener for map clicks
+        map.addListener('click', function(event) {
+          console.log(event.latLng.lat()+' ' +event.latLng.lng());
+        });
+
         // Add listener for Map Zoom
         // Remove markers if zoom level less than 15
         google.maps.event.addListener(map, 'zoom_changed', function() {
