@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <title>Comfest Map</title>
     <meta name="viewport" content="initial-scale=1.0">
@@ -112,19 +112,26 @@
         // Add POIs here:
         var listCFPOIS = [
           // Sample POIs
-          {name:'Test One', lat: 39.973955, lng: -83.008166, feature:'stage'},
-          {name:'Test Two', lat: 39.974043, lng: -83.005667, feature:'beer'},    
+          // {name:'Test One', lat: 39.973955, lng: -83.008166, feature:'stage'},
+          // {name:'Test Two', lat: 39.974043, lng: -83.005667, feature:'beer'},    
           {name:'Test Three', lat: 39.975343, lng: -83.006963, feature:'information'},   
-          {name:'Test Four', lat: 39.976691, lng: -83.008306, feature:'firstAid'},
+          // {name:'Test Four', lat: 39.976691, lng: -83.008306, feature:'firstAid'},
           // Start of real POIs    
-          {name:'Off-ramp', lat: 39.974099, lng: -83.008003, feature:'stage'},
+          // Stages
+          {name:'Off-ramp', lat: 39.9739260036349, lng: -83.00787725233601, feature:'stage'},
+          {name:'Peace and Healing', lat: 39.97571697357136, lng: -83.00803887223009, feature:'stage'},
           {name:'Bozo', lat: 39.974909, lng: -83.006710, feature:'stage'},
           {name:'Jazz', lat: 39.973577, lng: -83.004479, feature:'stage'},
           {name:'Gazebo', lat: 39.976175, lng: -83.005595, feature:'stage'},
           {name:'Solar', lat: 39.974793, lng: -83.008416, feature:'stage'}, 
-          {name:'Live Arts', lat: 39.976517, lng: -83.007226, feature:'stage'},    
+          {name:'Live Arts', lat: 39.976517, lng: -83.007226, feature:'stage'},
+          // Beer tents
+          {name:'Libations', lat: 39.9754593465213, lng: -83.00853776310686, feature:'beer'},
+          {name:'Libations', lat: 39.973771465316915, lng: -83.00732845536851, feature:'beer'},
+          {name:'Libations', lat: 39.97349603039632, lng: -83.00527924768113, feature:'beer'},
+          {name:'Libations', lat: 39.97648477971346, lng: -83.00504055059571, feature:'beer'},     
         ];
-        var posCBUS = {lat: 39.976, lng: -83.008};  // Goodale Park Center
+        var posCBUS = {lat: 39.97508358781618, lng: -83.00670985746382};  // Goodale Park Center
         
 
         // Add buttons
@@ -134,7 +141,7 @@
         // Open map. Set zoom and location  
         map = new google.maps.Map(document.getElementById('map'), {
           center: posCBUS,
-          zoom: 16,
+          zoom: 16.5,
           gestureHandling: 'greedy',
           // styles: stylers
 
@@ -149,10 +156,7 @@
           west: -83.009412
         };
         parkOverlay = new google.maps.GroundOverlay(
-          // 'http://via.placeholder.com/350x150', 
-          // 'https://drive.google.com/uc?id=1TVggu_MQXYhnvNSwfW4uqV1oekBnGTds',// WHite background map
-          // 'https://drive.google.com/uc?id=0B9jFsVvgAWVFcVVQcTFxQ1lzNWV0MjFRczBLdFUxWGdGdkFv', // Bordered map
-          'https://drive.google.com/uc?id=1qP-sDEoMLy0mxjmLlBWxSpe0qEqIQFbW', //Early test map
+          'https://drive.google.com/uc?id=1YUpjgnizoGhk0A16peDZpqQGiE9-UUpP', //Early test map
           overlayBounds,
           {clickable:false});
         parkOverlay.setMap(map);
