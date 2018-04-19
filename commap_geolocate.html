@@ -156,7 +156,7 @@
           west: -83.009412
         };
         parkOverlay = new google.maps.GroundOverlay(
-          'https://drive.google.com/uc?id=1DlOpp_H-Q8b_0zwJo_SZ4kAnjm4Nu9Xm', //Early test map
+          'https://drive.google.com/uc?id=17EyB8h8PPM7nJZXcteoYSI78TpoDvT7v', //Early test map
           overlayBounds,
           {clickable:false});
         parkOverlay.setMap(map);
@@ -176,10 +176,10 @@
           map: map// your google.maps.Map object
         });
         if (navigator.geolocation) navigator.geolocation.getCurrentPosition(function(pos) {
-          console.log('geolocate fired')
+          // console.log('geolocate fired')
           var me = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
-          console.log(me);
-          console.log(pos.coords.latitude, pos.coords.longitude, window.location.protocol);
+          // console.log(me);
+          // console.log(pos.coords.latitude, pos.coords.longitude, window.location.protocol);
           myloc.setPosition(me);
           }, function(error) {
               // ...
@@ -200,10 +200,10 @@
           map: map,
           });
           markers.push(marker);
-          console.log(listCFPOIS[i].lat,listCFPOIS[i].lng)
+          // console.log(listCFPOIS[i].lat,listCFPOIS[i].lng)
           var infowindow = new google.maps.InfoWindow();
           var txtContent = listCFPOIS[i].name;
-          console.log(txtContent);
+          // console.log(txtContent);
           google.maps.event.addListener(marker,'click', (function(marker,txtContent,infowindow){ 
             return function() {
               infowindow.setContent(txtContent);
@@ -218,7 +218,6 @@
           icon: new google.maps.MarkerImage(iconFileLocation.comfestLogo),
           title: 'Comfest',
           map: map,
-          // visibility: false,
           visible:false,
           });
         var infowindow = new google.maps.InfoWindow({
@@ -229,19 +228,18 @@
         });
 
 
-        console.log("Comfest Logo: ");// + comfestMarker);
-       
+        // console.log("Comfest Logo: ");
             function toggleLocateUser() {
           if(toggleFollow){
             toggleFollow = false;
             document.getElementById('btnLocateUser').classList.add('btnToggled');
-            console.log('follow turned off');
+            // console.log('follow turned off');
             navigator.geolocation.clearWatch(watchID);
             
           } else {
             toggleFollow = true;
             document.getElementById('btnLocateUser').classList.remove('btnToggled');
-            console.log('follow turned on');
+            // console.log('follow turned on');
             locateUser();
             
           }}
@@ -253,9 +251,8 @@
             for (i = 0; i < markers.length; i++) {
                 markers[i].setVisible(zoom >= 16);
                 comfestMarker.setVisible(!(zoom>=16));
-                // markers[i].setVisible(false);
             }
-            console.log('zoom: '+ zoom + '. zoom >= 16: '+ (zoom >= 16));
+            // console.log('zoom: '+ zoom + '. zoom >= 16: '+ (zoom >= 16));
         });
         // Add Listener for user locater button
         //
@@ -269,27 +266,22 @@
         // Function to locate user
         //
         function locateUser(){
-          console.log('btnLocateUser fired');
+          // console.log('btnLocateUser fired');
           if (navigator.geolocation) navigator.geolocation.getCurrentPosition(function(pos) {
-          console.log('geolocate fired')
+          // console.log('geolocate fired')
           var me = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
-          console.log(me);
-          console.log(pos.coords.latitude, pos.coords.longitude, pos.coords.accuracy);
+          // console.log(me);
+          // console.log(pos.coords.latitude, pos.coords.longitude, pos.coords.accuracy);
           myloc.setPosition(me);
           map.setCenter(me);
           watchID = navigator.geolocation.watchPosition(function(pos){
             myloc.setPosition(me);
-            console.log(pos.coords.latitude, pos.coords.longitude, pos.coords.accuracy);
+            // console.log(pos.coords.latitude, pos.coords.longitude, pos.coords.accuracy);
           })
           }, function(error){console.log('btnLocateUSer geolocate failed')});
 
           
         }
-
-        
-        
-
-
       }
       //Functions to add or remove markers from map
         // Sets the map on all markers in the array.
@@ -333,12 +325,8 @@
             addOverlay();
             parkOverlayShown = true;
           }
-        }
-
-      
-      
+        } 
     </script>
-
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDTvKQxSrvIgqHaR7dXVNKdb6nb-q2dOmQ&callback=initMap"
     async defer></script>
   </body>
